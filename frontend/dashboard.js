@@ -6,7 +6,7 @@
 // plus new signature motion added here.
 // =========================================================
 
-const API = "http://127.0.0.1:5000/students";
+const API = "https://student-management-system.onrender.com/students";
 const RING_CIRC = 213.6; // 2 * PI * 34
 
 let students = [];
