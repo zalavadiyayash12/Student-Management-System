@@ -65,12 +65,13 @@ function showLogin() {
 
 // Register Function
 async function register() {
+    const API = "https://student-management-system.onrender.com";
     try {
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://127.0.0.1:5000/register", {
+        const response = await fetch("${API}/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -100,7 +101,7 @@ async function login() {
         const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword").value;
 
-        const response = await fetch("http://127.0.0.1:5000/login", {
+        const response = await fetch("${API}/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
