@@ -64,7 +64,7 @@ function showLogin() {
 }
 
 // Register Function
-const API = "https://student-management-system.onrender.com";
+const API = "https://student-management-system-ht84.onrender.com";
 async function register() {
     try {
         const name = document.getElementById("name").value;
