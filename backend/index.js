@@ -15,7 +15,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+const cors = require("cors");
+
+app.use(cors({
+    origin: "https://student-management-system-gray-mu.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
