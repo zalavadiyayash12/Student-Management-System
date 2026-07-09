@@ -6,7 +6,7 @@
 // plus new signature motion added here.
 // =========================================================
 
-const API = "https://student-management-system-ht84.onrender.com";
+const API = "https://student-management-system-ht84.onrender.com/students";
 const RING_CIRC = 213.6; // 2 * PI * 34
 
 let students = [];
