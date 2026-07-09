@@ -977,6 +977,64 @@ tbody tr:hover{ background:rgba(255,255,255,.06); }
     .topbar h1{ font-size:26px; }
     .view-rings{ flex-wrap:wrap; }
 }
+/* =========================================================
+   FULL MOBILE SUPPORT — paste at the very end of the file.
+   Later rules win over earlier ones with the same specificity,
+   so this block is the final word on every breakpoint below 1300px.
+   ========================================================= */
+
+/* ---- Large tablets / small laptops ---- */
+@media(max-width:1300px){
+    .stats{ grid-template-columns:repeat(3,1fr); }
+    .analytics-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* ---- Tablets ---- */
+@media(max-width:1100px){
+    .reports-grid{ grid-template-columns:repeat(2,1fr); }
+    .settings-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* ---- Small tablets / large phones: sidebar becomes a drawer ---- */
+@media(max-width:900px){
+    .sidebar{ transform:translateX(-100%); width:80vw; max-width:280px; }
+    .sidebar.show{ transform:translateX(0); box-shadow:20px 0 50px rgba(0,0,0,.5); }
+    .main{ margin-left:0; padding:20px 16px 50px; }
+    .menu-toggle{ display:flex; margin-bottom:16px; }
+
+    .stats{ grid-template-columns:repeat(2,1fr); }
+    .analytics-grid{ grid-template-columns:1fr; }
+    .reports-grid{ grid-template-columns:1fr; }
+    .settings-grid{ grid-template-columns:1fr; }
+
+    .field-grid{ grid-template-columns:1fr; }
+    .detail-grid{ grid-template-columns:1fr; }
+
+    .mouse-glow{ display:none; }
+    .particle-field{ opacity:.6; }
+}
+
+/* ---- Phones ---- */
+@media(max-width:640px){
+    .stats{ grid-template-columns:1fr 1fr; gap:14px; }
+    .stat-card{ padding:18px 16px; }
+    .stat-card .stat-value{ font-size:22px; }
+
+    .topbar{ align-items:flex-start; }
+    .topbar h1{ font-size:24px; }
+    .eyebrow{ font-size:10px; }
+
+    .head-actions{ width:100%; flex-wrap:wrap; gap:10px; }
+    .record-search{ width:100%; order:3; }
+    .icon-btn, .avatar-btn{ width:40px; height:40px; }
+
+    .panel{ padding:18px; }
+    .panel-head{ flex-direction:column; align-items:flex-start; }
+    .panel-filters{ width:100%; }
+    .panel-filters .select-chip{ flex:1; min-width:120px; }
+    .panel-filters .btn-gradient{ width:100%; justify-content:center; }
+
+    table{
 
 @media(prefers-reduced-motion: reduce){
     *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
