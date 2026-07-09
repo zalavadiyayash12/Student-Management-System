@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduTrack Pro — Dashboard</title>
+<link rel="stylesheet" href="dashboard.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Same ambient language as the login page -->
+<div class="mouse-glow" id="mouseGlow"></div>
+<div class="particle-field" id="particleField"></div>
+
+<!-- Hidden SVG defs: gradient used by all "good" progress rings -->
+<svg width="0" height="0" style="position:absolute">
+    <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00c6ff"></stop>
+            <stop offset="100%" stop-color="#6a11cb"></stop>
+        </linearGradient>
+    </defs>
+</svg>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="seal">ET</div>
+            <div class="brand-text">
+                <h1>EduTrack</h1>
+                <span>Pro Dashboard</span>
+            </div>
+        </div>
+
+        <div class="nav-group-label">Overview</div>
+        <ul class="nav-list">
+            <li class="active" data-nav="dashboard" style="animation-delay:.03s"><i class="fa-solid fa-compass"></i>Dashboard</li>
+            <li data-nav="students" style="animation-delay:.08s"><i class="fa-solid fa-user-graduate"></i>Students</li>
+        </ul>
+
+        <div class="nav-group-label">Records</div>
+        <ul class="nav-list">
+            <li data-nav="analytics" style="animation-delay:.13s"><i class="fa-solid fa-chart-line"></i>Analytics</li>
+            <li data-nav="reports" style="animation-delay:.18s"><i class="fa-solid fa-file-lines"></i>Reports</li>
+            <li data-nav="settings" style="animation-delay:.23s"><i class="fa-solid fa-gear"></i>Settings</li>
+        </ul>
+
+        <ul class="nav-list" style="margin-top:auto">
+            <li data-nav="logout" style="animation-delay:.28s"><i class="fa-solid fa-right-from-bracket"></i>Logout</li>
+        </ul>
+
+        <div class="sidebar-foot">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Session verified &amp; secure</span>
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div>
+                <div class="eyebrow">Academic Year 2025–26</div>
+                <h1 id="greeting"><span id="greetingText"></span><span class="cursor-bar"></span></h1>
+                <div class="sub" id="liveClock">—</div>
+            </div>
+
+            <div class="head-actions">
+                <div class="record-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="globalSearch" placeholder="Look up a student record…">
+                </div>
+
+                <button class="icon-btn" title="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="dot"></span>
+                </button>
+
+                <div class="avatar-btn" title="Admin">A</div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="statsRow">
+
+            <div class="stat-card tilt-card" style="animation-delay:.05s">
+                <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value" id="totalStudents">0</div>
+                <div class="stat-note">Enrolled across all batches</div>
+            </div>
+
+            <div class="stat-card tilt-card" style="animation-delay:.1s">
+                <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
+                <div class="stat-label">Total Courses</div>
+                <div class="stat-value" id="totalCourses">0</div>
+                <div class="stat-note">Active course offerings</div>
+            </div>
+
+            <div class="stat-card tilt-card" style="animation-delay:.15s">
+                <div class="stat-icon"><i class="fa-solid fa-city"></i></div>
+                <div class="stat-label">Total Cities</div>
+                <div class="stat-value" id="totalCities">0</div>
+                <div class="stat-note">Represented in this batch</div>
+            </div>
+
+            <div class="stat-card tilt-card" style="animation-delay:.2s">
+                <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                <div class="stat-label">Fees Pending</div>
+                <div class="stat-value" id="pendingFees">₹0</div>
+                <div class="stat-note" id="paidFeesNote">₹0 collected so far</div>
+            </div>
+
+            <div class="stat-card hero-ring tilt-card" style="animation-delay:.25s">
+                <div class="ring-wrap">
+                    <svg viewBox="0 0 80 80">
+                        <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                        <circle class="ring-progress good" id="avgRing" cx="40" cy="40" r="34"
+                            stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle>
+                    </svg>
+                    <div class="ring-label" id="avgRingLabel">0%</div>
+                </div>
+                <div>
+                    <div class="stat-label">Avg. Attendance</div>
+                    <div class="stat-value">Overview</div>
+                    <div class="stat-note">Across enrolled students</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Student table -->
+        <div class="panel" id="studentsPanel">
+
+            <div class="panel-head">
+                <div>
+                    <h2>Student List</h2>
+                    <div class="count" id="rowCount">0 records</div>
+                </div>
+
+                <div class="panel-filters">
+                    <select class="select-chip" id="cityFilter">
+                        <option value="">All Cities</option>
+                    </select>
+                    <select class="select-chip" id="courseFilter">
+                        <option value="">All Courses</option>
+                    </select>
+                    <select class="select-chip" id="feeFilter">
+                        <option value="">All Fee Status</option>
+                        <option value="paid">Paid</option>
+                        <option value="partial">Partial</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                    <button class="btn-gradient" onclick="openAddModal(event)">
+                        <i class="fa-solid fa-plus"></i> Add Student
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>City</th>
+                            <th>Course</th>
+                            <th>Attendance</th>
+                            <th>Fees</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable">
+                        <tr class="skeleton-row"><td colspan="6"><div class="skeleton-bar"></div></td></tr>
+                        <tr class="skeleton-row"><td colspan="6"><div class="skeleton-bar"></div></td></tr>
+                        <tr class="skeleton-row"><td colspan="6"><div class="skeleton-bar"></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Analytics -->
+        <div class="panel" id="analyticsPanel" style="margin-top:28px;">
+
+            <div class="panel-head">
+                <div>
+                    <h2>Analytics</h2>
+                    <div class="count">Live breakdown of your register</div>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-city"></i> Students per City</h3>
+                    <div class="chart-canvas-wrap"><canvas id="cityChart"></canvas></div>
+                    <div class="chart-legend" id="cityLegend"></div>
+                </div>
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-book"></i> Students per Course</h3>
+                    <div class="chart-canvas-wrap"><canvas id="courseChart"></canvas></div>
+                </div>
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-calendar-check"></i> Attendance Distribution</h3>
+                    <div class="chart-canvas-wrap"><canvas id="attendanceChart"></canvas></div>
+                </div>
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-sack-dollar"></i> Fees Status</h3>
+                    <div class="chart-canvas-wrap"><canvas id="feeChart"></canvas></div>
+                    <div class="chart-legend" id="feeLegend"></div>
+                </div>
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-venus-mars"></i> Gender Ratio</h3>
+                    <div class="chart-canvas-wrap"><canvas id="genderChart"></canvas></div>
+                    <div class="chart-legend" id="genderLegend"></div>
+                </div>
+
+                <div class="chart-card tilt-card">
+                    <h3><i class="fa-solid fa-calendar-plus"></i> Monthly Admissions</h3>
+                    <div class="chart-canvas-wrap"><canvas id="admissionsChart"></canvas></div>
+                    <div class="chart-legend" id="admissionsLegend"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Reports -->
+        <div class="panel" id="reportsPanel" style="margin-top:28px;">
+
+            <div class="panel-head">
+                <div>
+                    <h2>Reports &amp; Exports</h2>
+                    <div class="count">Download or print records from your register</div>
+                </div>
+            </div>
+
+            <div class="reports-grid">
+
+                <div class="report-card tilt-card">
+                    <div class="report-icon"><i class="fa-solid fa-id-card"></i></div>
+                    <h3>Student Report</h3>
+                    <p>Full details of every student — contact, course, attendance and fees.</p>
+                    <div class="report-actions">
+                        <button class="btn-ghost" onclick="exportStudentReportCSV(event)"><i class="fa-solid fa-file-csv"></i> Excel (CSV)</button>
+                        <button class="btn-gradient" onclick="printStudentReport(event)"><i class="fa-solid fa-print"></i> PDF / Print</button>
+                    </div>
+                </div>
+
+                <div class="report-card tilt-card">
+                    <div class="report-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h3>Attendance Report</h3>
+                    <p>Attendance percentage and standing for every enrolled student.</p>
+                    <div class="report-actions">
+                        <button class="btn-ghost" onclick="exportAttendanceReportCSV(event)"><i class="fa-solid fa-file-csv"></i> Excel (CSV)</button>
+                        <button class="btn-gradient" onclick="printAttendanceReport(event)"><i class="fa-solid fa-print"></i> PDF / Print</button>
+                    </div>
+                </div>
+
+                <div class="report-card tilt-card">
+                    <div class="report-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3>Fees Report</h3>
+                    <p>Total, paid and pending fees, with payment status per student.</p>
+                    <div class="report-actions">
+                        <button class="btn-ghost" onclick="exportFeesReportCSV(event)"><i class="fa-solid fa-file-csv"></i> Excel (CSV)</button>
+                        <button class="btn-gradient" onclick="printFeesReport(event)"><i class="fa-solid fa-print"></i> PDF / Print</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Settings -->
+        <div class="panel" id="settingsPanel" style="margin-top:28px;">
+
+            <div class="panel-head">
+                <div>
+                    <h2>Settings</h2>
+                    <div class="count">Personalize how the dashboard looks and behaves</div>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+
+                <div class="settings-card tilt-card">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Appearance</h3>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">Floating Particles</div>
+                            <div class="toggle-hint">Ambient particles drifting in the background</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleParticles" checked onchange="onSettingToggle('particles', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">Card Tilt Effect</div>
+                            <div class="toggle-hint">3D spotlight tilt when hovering cards</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleTilt" checked onchange="onSettingToggle('tilt', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">Reduce Motion</div>
+                            <div class="toggle-hint">Turns off animations for a calmer, faster UI</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleReduceMotion" onchange="onSettingToggle('reduceMotion', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-card tilt-card">
+                    <h3><i class="fa-solid fa-bell"></i> Notification Alerts</h3>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">Low Attendance</div>
+                            <div class="toggle-hint">Alert when a student drops below 40%</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleAlertAttendance" checked onchange="onSettingToggle('alertLowAttendance', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">Pending Fees</div>
+                            <div class="toggle-hint">Alert for students with unpaid fees</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleAlertFees" checked onchange="onSettingToggle('alertPendingFees', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label">New Registrations</div>
+                            <div class="toggle-hint">Alert for students added this week</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleAlertNew" checked onchange="onSettingToggle('alertNewAdmissions', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-card tilt-card">
+                    <h3><i class="fa-solid fa-database"></i> Data Management</h3>
+                    <p class="settings-desc">Keep a local backup of your register, or start fresh.</p>
+
+                    <button class="btn-ghost settings-btn" onclick="backupData(event)">
+                        <i class="fa-solid fa-download"></i> Backup All Data (JSON)
+                    </button>
+
+                    <div class="danger-zone">
+                        <div class="toggle-label" style="color:var(--risk);margin-bottom:6px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Danger Zone
+                        </div>
+                        <div class="toggle-hint" style="margin-bottom:12px;">This permanently deletes every student in the register.</div>
+                        <button class="btn-danger settings-btn" onclick="askDeleteAll(event)">
+                            <i class="fa-solid fa-trash"></i> Delete All Students
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-card tilt-card">
+                    <h3><i class="fa-solid fa-user-shield"></i> Account</h3>
+                    <div class="account-row">
+                        <div class="avatar-btn" style="width:52px;height:52px;font-size:18px;">A</div>
+                        <div>
+                            <div class="toggle-label">Admin</div>
+                            <div class="toggle-hint" id="sessionStatus">Session active</div>
+                        </div>
+                    </div>
+                    <button class="btn-danger settings-btn" style="margin-top:18px;" onclick="handleNav({dataset:{nav:'logout'}})">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Settings -->
+        <div class="panel" id="settingsPanel" style="margin-top:28px;">
+
+            <div class="panel-head">
+                <div>
+                    <h2>Settings</h2>
+                    <div class="count">Your profile, preferences and data</div>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+
+                <!-- Admin Profile -->
+                <div class="settings-card tilt-card">
+                    <div class="form-section-label" style="margin-top:0">Admin Profile</div>
+                    <div class="field-grid">
+                        <div class="field full">
+                            <label>Display Name</label>
+                            <input type="text" id="settingName" placeholder="Admin">
+                        </div>
+                        <div class="field full">
+                            <label>Email</label>
+                            <input type="email" id="settingEmail" placeholder="admin@edutrack.com">
+                        </div>
+                    </div>
+                    <button class="btn-gradient" style="margin-top:16px; justify-content:center;" onclick="saveAdminProfile(event)">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Profile
+                    </button>
+                </div>
+
+                <!-- Preferences -->
+                <div class="settings-card tilt-card">
+                    <div class="form-section-label" style="margin-top:0">Preferences</div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-title">Reduce Animations</div>
+                            <div class="toggle-desc">Turn off motion effects across the dashboard</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggleMotion" onchange="toggleReduceMotion(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-title">Notification Indicator</div>
+                            <div class="toggle-desc">Show the alert dot on the bell icon</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggleNotif" onchange="toggleNotifDot(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="settings-card tilt-card">
+                    <div class="form-section-label" style="margin-top:0">Data Management</div>
+                    <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.5;">
+                        Export a full backup of your student register, or clear it out completely.
+                    </p>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button class="btn-ghost" onclick="downloadBackup(event)"><i class="fa-solid fa-database"></i> Download Backup (JSON)</button>
+                        <button class="btn-danger" onclick="askDeleteAll()"><i class="fa-solid fa-triangle-exclamation"></i> Delete All Students</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Hidden printable area — populated just before window.print() so only
+     this shows up in the PDF/print output, never the rest of the UI. -->
+<div id="printArea">
+    <h1 id="printTitle">Report</h1>
+    <div id="printMeta"></div>
+    <table id="printTable">
+        <thead id="printTableHead"></thead>
+        <tbody id="printTableBody"></tbody>
+    </table>
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="modal-backdrop" id="studentModal">
+    <div class="modal">
+        <div class="modal-head">
+            <h2 id="modalTitle">Add Student</h2>
+            <button class="close-x" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <form id="studentForm" onsubmit="return false;">
+            <input type="hidden" id="studentId">
+
+            <div class="form-section-label">Personal Details</div>
+            <div class="field-grid">
+                <div class="field full">
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="e.g. Ananya Sharma" required>
+                </div>
+                <div class="field">
+                    <label>Age</label>
+                    <input type="number" id="age" min="1" placeholder="20">
+                </div>
+                <div class="field">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="">Select</option>
+                        <option>Female</option>
+                        <option>Male</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Phone</label>
+                    <input type="text" id="phone" placeholder="98765 43210">
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="name@email.com">
+                </div>
+            </div>
+
+            <div class="form-section-label">Academic Details</div>
+            <div class="field-grid">
+                <div class="field">
+                    <label>Course</label>
+                    <input type="text" id="course" placeholder="e.g. B.Tech CSE">
+                </div>
+                <div class="field">
+                    <label>City</label>
+                    <input type="text" id="city" placeholder="e.g. Ahmedabad">
+                </div>
+                <div class="field full">
+                    <label>Attendance % <span class="hint" id="attendanceHint"></span></label>
+                    <input type="range" id="attendance" min="0" max="100" value="0" oninput="syncAttendanceHint()">
+                </div>
+            </div>
+
+            <div class="form-section-label">Fees</div>
+            <div class="field-grid">
+                <div class="field">
+                    <label>Total Fees (₹)</label>
+                    <input type="number" id="feesTotal" min="0" placeholder="50000">
+                </div>
+                <div class="field">
+                    <label>Paid So Far (₹)</label>
+                    <input type="number" id="feesPaid" min="0" placeholder="0">
+                </div>
+            </div>
+
+            <div class="form-section-label">Remarks</div>
+            <div class="field">
+                <textarea id="remarks" placeholder="Any notes about this student…"></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="btn-ghost" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn-gradient" id="saveBtn" onclick="saveStudent(event)">
+                    <i class="fa-solid fa-floppy-disk"></i> <span id="saveBtnLabel">Add Student</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div class="modal-backdrop" id="viewModal">
+    <div class="modal">
+        <div class="modal-head">
+            <h2>Student Profile</h2>
+            <button class="close-x" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="view-head">
+            <div class="initials" id="viewInitials">--</div>
+            <div>
+                <h2 id="viewName">—</h2>
+                <span class="chip" id="viewCourse">—</span>
+            </div>
+        </div>
+
+        <div class="view-rings">
+            <div class="view-ring-item">
+                <div class="ring-wrap ring-mini" style="width:70px;height:70px">
+                    <svg viewBox="0 0 80 80">
+                        <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                        <circle class="ring-progress" id="viewAttRing" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle>
+                    </svg>
+                    <div class="ring-label" id="viewAttLabel">0%</div>
+                </div>
+                <span>Attendance</span>
+            </div>
+            <div class="view-ring-item">
+                <div class="ring-wrap ring-mini" style="width:70px;height:70px">
+                    <svg viewBox="0 0 80 80">
+                        <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                        <circle class="ring-progress" id="viewFeeRing" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle>
+                    </svg>
+                    <div class="ring-label" id="viewFeeLabel">0%</div>
+                </div>
+                <span>Fees Paid</span>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item"><label>Age</label><div id="viewAge">—</div></div>
+            <div class="detail-item"><label>Gender</label><div id="viewGender">—</div></div>
+            <div class="detail-item"><label>Phone</label><div id="viewPhone">—</div></div>
+            <div class="detail-item"><label>Email</label><div id="viewEmail">—</div></div>
+            <div class="detail-item"><label>City</label><div id="viewCity">—</div></div>
+            <div class="detail-item"><label>Fees</label><div id="viewFees">—</div></div>
+        </div>
+
+        <div class="form-section-label">Remarks</div>
+        <div class="remarks-note" id="viewRemarks">No remarks on file.</div>
+
+        <div class="modal-buttons">
+            <button type="button" class="btn-ghost" onclick="closeViewModal()">Close</button>
+            <button type="button" class="btn-gradient" id="viewEditBtn" onclick="editFromView(event)">
+                <i class="fa-solid fa-pen"></i> Edit Record
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-backdrop" id="confirmModal">
+    <div class="modal small">
+        <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h2 style="font-size:20px;margin-bottom:8px;">Are you sure?</h2>
+        <p id="confirmMessage" style="color:var(--muted);font-size:13.5px;margin-bottom:6px;"></p>
+        <div class="modal-buttons">
+            <button type="button" class="btn-ghost" onclick="closeConfirmModal()">Cancel</button>
+            <button type="button" class="btn-danger" onclick="runConfirmedAction()">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

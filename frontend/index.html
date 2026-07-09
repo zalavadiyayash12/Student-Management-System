@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="particles"></div>
+    <div class="mouse-glow"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">StudentMS</div>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <button class="login-btn" onclick="showRegister()">Register</button>
+    </nav>
+
+    <!-- Home -->
+    <section id="home" class="hero">
+        <div class="left">
+            <span class="tag">Smart • Simple • Secure</span>
+
+            <h1>Empowering students Success<br> One Dashboard </h1>
+
+            <p>
+                Manage Students The Smart Way
+            </p> 
+        
+
+            <button class="start-btn">Get Started</button>
+        </div>
+
+        <div class="right">
+            <div class="login-box">
+
+                <!-- Login Form -->
+                <div id="login-form">
+                    <h1>Welcome Back!</h1><br>
+                    <p>Sign in to your account</p><br><br>
+
+                    <input type="email" id="loginEmail" placeholder="Enter Email">
+                    <input type="password" id="loginPassword" placeholder="Enter Password">
+
+                    <button onclick="login()">Sign In</button>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" style="display: none;">
+                    <h1>Create Account</h1><br>
+                    <p>Register to continue</p><br><br>
+
+                    <input type="text" id="name" placeholder="Enter Name"><br>
+                    <input type="email" id="email" placeholder="Enter Email"><br>
+                    <input type="password" id="password" placeholder="Enter Password">
+
+                    <button onclick="register()">Register</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <h1>About Us</h1><br>    
+        <h3>
+            Our Student records,attendance,marks,and personal details in one secure and easy-to-use platform. 
+        </h3>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <h1>Features</h1>
+
+        <div class="feature-container">
+            <div class="card">
+                <h3>Easy Management</h3>
+                <p>Add, update, delete students easily.</p>
+            </div>
+
+            <div class="card">
+                <h3>Secure Data</h3>
+                <p>Protected using JWT authentication.</p>
+            </div>
+
+            <div class="card">
+                <h3>Track & Analyze</h3>
+                <p>Monitor student performance easily.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <h1>Contact</h1>
+        <p><a href="mailto:zalavadiyayash12@gmail.com">Email: zalavadiyayash12@gmail.com</a></p><br>
+        <p ><a href="tel:+918799399742">Phone: +91 8799399742</a></p>
+    </section>
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

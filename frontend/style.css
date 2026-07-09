@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a40);
+    background-size: 400% 400%;
+    animation: gradientBG 5s ease infinite;
+    overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#00c6ff, #6a11cb);
+    border-radius: 20px;
+}
+
+/* Mouse Glow */
+.mouse-glow {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(87, 86, 86), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+}
+
+/* Particles */
+.particles::before {
+    content: "";
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    box-shadow:
+        100px 200px white,
+        300px 500px white,
+        600px 100px white,
+        900px 400px white;
+    animation: particlesMove 20s linear infinite;
+    opacity: 0.4;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 80px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: 0.4s;
+}
+
+nav.scrolled {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #00c6ff;
+}
+
+/* Buttons */
+.login-btn,
+.start-btn,
+.login-box button {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(90deg, #00c6ff, #6a11cb);
+    transition: 0.3s;
+}
+
+.login-btn:hover,
+.start-btn:hover,
+.login-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0,198,255,0.5);
+}
+
+/* Hero */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px;
+}
+
+.left {
+    width: 45%;
+}
+
+.tag {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 20px;
+}
+
+.left h1 {
+    font-size: 55px;
+    min-height: 140px;
+    margin-bottom: 20px;
+}
+
+.left p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.right {
+    width: 35%;
+}
+
+/* Login Box */
+.login-box {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(18px);
+    padding: 40px;
+    border-radius: 20px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    border-radius: 12px;
+}
+
+/* Sections */
+.about,
+.features,
+.contact {
+    padding: 100px 80px;
+    text-align: center;
+}
+
+.feature-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.card {
+    width: 300px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.12);
+    transition: 0.4s;
+}
+
+.card:hover {
+    transform: rotateY(8deg) rotateX(8deg) translateY(-12px);
+}
+
+/* Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: all 1s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+#contact p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes particlesMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(-1000px); }
+}
