@@ -221,3 +221,72 @@ nav ul li a:hover {
     from { transform: translateY(0); }
     to { transform: translateY(-1000px); }
 }
+/* =========================================================
+   FULL MOBILE SUPPORT for the login page (index.html)
+   Paste at the very end of style.css
+   ========================================================= */
+
+/* ---- Tablets ---- */
+@media(max-width:900px){
+    nav{ padding:18px 30px; }
+    nav ul{ gap:20px; }
+
+    .hero{
+        flex-direction:column;
+        padding:40px 30px;
+        gap:40px;
+        min-height:auto;
+        padding-top:100px;
+    }
+    .left, .right{ width:100%; }
+    .left h1{ font-size:40px; min-height:auto; }
+    .left p{ font-size:16px; }
+
+    .login-box{ padding:32px; }
+
+    .about, .features, .contact{ padding:70px 30px; }
+
+    .feature-container{ flex-wrap:wrap; gap:20px; }
+    .card{ width:100%; max-width:320px; }
+}
+
+/* ---- Phones ---- */
+@media(max-width:640px){
+    nav{
+        padding:14px 18px;
+        flex-wrap:wrap;
+        gap:12px;
+        justify-content:space-between;
+    }
+    .logo{ font-size:22px; }
+    nav ul{ gap:14px; order:3; width:100%; justify-content:center; flex-wrap:wrap; }
+    nav ul li a{ font-size:14px; }
+    .login-btn{ padding:10px 20px; font-size:13px; }
+
+    .hero{ padding:30px 20px; padding-top:110px; gap:30px; }
+    .left h1{ font-size:30px; }
+    .left p{ font-size:14.5px; }
+    .tag{ font-size:12px; padding:8px 14px; }
+    .start-btn{ width:100%; padding:14px; }
+
+    .login-box{ padding:24px; }
+    .login-box h2{ font-size:22px; }
+    .login-box input{ padding:13px; font-size:14px; }
+    .login-box button{ width:100%; padding:13px; }
+
+    .about, .features, .contact{ padding:50px 18px; }
+    .about h1, .features h1, .contact h1{ font-size:26px; }
+    .about p, .contact p{ font-size:14px; }
+
+    .feature-container{ flex-direction:column; align-items:center; }
+    .card{ width:100%; padding:22px; }
+    .card h3{ font-size:16px; }
+    .card p{ font-size:13px; }
+}
+
+/* ---- Small phones ---- */
+@media(max-width:400px){
+    .logo{ font-size:19px; }
+    .left h1{ font-size:25px; }
+    nav ul li a{ font-size:12.5px; }
+}
