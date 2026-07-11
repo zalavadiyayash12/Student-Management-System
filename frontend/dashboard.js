@@ -391,14 +391,15 @@ function countUp(id, target){
 // library, so nothing can fail to load over the network.
 // ---------------------------------------------------------
 function renderAnalytics(list){
-    renderCityChart(list);
-    renderCourseChart(list);
-    renderAttendanceChart(list);
-    renderFeeChart(list);
-    renderGenderChart(list);
-    renderAdmissionsChart(list);
+    const renderers = [
+        renderCityChart, renderCourseChart, renderAttendanceChart,
+        renderFeeChart, renderGenderChart, renderAdmissionsChart
+    ];
+    renderers.forEach(fn => {
+        try{ fn(list); }
+        catch(err){ console.log(`Analytics chart "${fn.name}" failed:`, err); }
+    });
 }
-
 function countBy(list, key){
     const map = {};
     list.forEach(s => {
