@@ -210,6 +210,18 @@ nav ul li a:hover {
     font-size: 18px;
     margin: 10px 0;
 }
+.login-section{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:80px 20px;
+}
+
+.login-section .login-box{
+    width:100%;
+    max-width:450px;
+}
 
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -346,5 +358,22 @@ nav ul li a:hover {
     .login-box p{
         font-size:15px;
     }
+
+}
+@media(max-width:768px){
+
+.hero{
+    min-height:90vh;
+    justify-content:center;
+    text-align:center;
+}
+
+.left{
+    width:100%;
+}
+
+.login-section{
+    padding:60px 20px;
+}
 
 }
