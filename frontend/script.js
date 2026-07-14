@@ -126,3 +126,19 @@ async function login() {
         alert("Login Failed");
     }
 }
+function scrollToLogin() {
+    const login = document.getElementById("login-section");
+
+    login.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    login.style.transition = "0.5s";
+
+    login.style.boxShadow = "0 0 40px #00c6ff";
+
+    setTimeout(() => {
+        login.style.boxShadow = "";
+    }, 1500);
+}
