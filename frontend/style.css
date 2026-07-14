@@ -231,100 +231,120 @@ nav ul li a:hover {
    Mobile Responsive
 =========================== */
 
-@media (max-width:768px){
+/* ================= Mobile Responsive ================= */
 
-    body{
-        overflow-x:hidden;
+@media (max-width: 768px) {
+
+    nav {
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
     }
 
-    .container{
-        width:100%;
-        padding:20px;
-        flex-direction:column;
-        height:auto;
+    nav ul {
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        flex-direction: column;
+        padding: 30px 20px;
+        text-align: center;
+        gap: 40px;
     }
 
     .left,
-    .right{
-        width:100%;
+    .right {
+        width: 100%;
     }
 
-    .left{
-        text-align:center;
-        margin-bottom:30px;
+    .left h1 {
+        font-size: 38px;
+        line-height: 1.3;
+        min-height: auto;
+    }
+
+    .left p {
+        font-size: 17px;
+    }
+
+    .tag {
+        font-size: 14px;
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 420px;
+        margin: auto;
+        padding: 30px;
+    }
+
+    .login-box input {
+        height: 55px;
+        font-size: 16px;
+    }
+
+    .login-box button {
+        width: 100%;
+        height: 55px;
+        font-size: 16px;
+    }
+
+    .feature-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .about,
+    .features,
+    .contact {
+        padding: 70px 20px;
+    }
+
+    .mouse-glow {
+        display: none;
+    }
+
+}
+
+
+/* Small Mobile */
+
+@media (max-width:480px){
+
+    .logo{
+        font-size:24px;
+    }
+
+    nav ul{
+        gap:12px;
+        font-size:14px;
     }
 
     .left h1{
-        font-size:2rem;
-        line-height:1.3;
+        font-size:30px;
     }
 
     .left p{
         font-size:15px;
     }
 
-    .login-box,
-    .register-box{
-        width:100%;
-        padding:25px 20px;
-        border-radius:20px;
+    .login-box{
+        padding:22px;
     }
 
-    input{
-        width:100%;
-        height:50px;
-        font-size:16px;      /* Mobile zoom fix */
-        padding:0 15px;
-        box-sizing:border-box;
-    }
-
-    button{
-        width:100%;
-        height:50px;
-        font-size:16px;
-    }
-
-    .form-group{
-        margin-bottom:15px;
-    }
-
-    .mouse-glow{
-        display:none;
-    }
-}
-
-/* Small Phones */
-
-@media (max-width:480px){
-
-    body{
-        padding:15px;
-    }
-
-    .container{
-        padding:10px;
-    }
-
-    .left h1{
+    .login-box h1{
         font-size:28px;
     }
 
-    .left p{
-        font-size:14px;
-    }
-
-    .login-box,
-    .register-box{
-        padding:20px 15px;
-    }
-
-    input{
-        font-size:16px;   /* Important */
-        height:48px;
-    }
-
-    button{
-        height:48px;
+    .login-box p{
+        font-size:15px;
     }
 
 }
